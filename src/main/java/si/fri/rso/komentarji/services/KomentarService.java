@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import si.fri.rso.komentarji.models.Komentar;
 import si.fri.rso.komentarji.repositories.KomentarRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -51,6 +52,12 @@ public class KomentarService {
 
     public Boolean deleteKomentar(Integer komentarId) {
         komentarRepository.deleteById(komentarId);
+        return true;
+    }
+
+    @Transactional
+    public Boolean deleteByReceptId(Integer receptId) {
+        komentarRepository.deleteAllByReceptId(receptId);
         return true;
     }
 

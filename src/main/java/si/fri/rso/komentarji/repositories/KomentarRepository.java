@@ -8,4 +8,5 @@ import java.util.List;
 public interface KomentarRepository extends JpaRepository<Komentar, Integer> {
     List<Komentar> getByUporabnikId(Integer uporabnikId);
     List<Komentar> getByReceptId(Integer receptId);
+    void deleteAllByReceptId(Integer receptId);
 }

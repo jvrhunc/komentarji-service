@@ -140,4 +140,22 @@ public class KomentarResource {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error while deleting Komentar with Id: " + komentarId);
     }
+
+    @DeleteMapping("/delete/recept/{receptId}")
+    public ResponseEntity<Object> deleteByReceptId(@PathVariable("receptId") Integer receptId) {
+
+        if (receptId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Recept Id is required!");
+        }
+
+        Boolean uspesno = komentarService.deleteByReceptId(receptId);
+
+        if(uspesno) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT)
+                    .body(true);
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Error while deleting Komentars with Recept Id: " + receptId);
+    }
 }
