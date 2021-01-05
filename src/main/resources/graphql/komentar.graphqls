@@ -1,0 +1,7 @@
+type Komentar {
+    komentarId: ID!
+    komentar: String!
+    ocena: Int!
+    uporabnikId: Int!
+    receptId: Int!
+}

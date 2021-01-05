@@ -1,0 +1,5 @@
+type Query {
+    findAllKomentars: [Komentar]
+    findReceptById(id: ID): Komentar
+    findReceptByReceptId(id: Int): [Komentar]
+}
