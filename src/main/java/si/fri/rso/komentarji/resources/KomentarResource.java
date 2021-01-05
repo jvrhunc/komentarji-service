@@ -1,5 +1,6 @@
 package si.fri.rso.komentarji.resources;
 
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,23 @@ public class KomentarResource {
     @Autowired
     private KomentarService komentarService;
 
+    @Timed(
+            value = "Komentarji.getAll",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @GetMapping
     public ResponseEntity<Object> getKomentarji() {
         return ResponseEntity.status(HttpStatus.OK).body(komentarService.getKomentarji());
     }
 
+    @Timed(
+            value = "Komentarji.getById",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @GetMapping("/{komentarId}")
     public ResponseEntity<Object> getKomentarById(@PathVariable("komentarId") Integer komentarId) {
         if (komentarId == null) {
@@ -36,6 +49,12 @@ public class KomentarResource {
         return ResponseEntity.status(HttpStatus.OK).body(komentar);
     }
 
+    @Timed(
+            value = "Komentarji.getByReceptId",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @GetMapping("/recept/{receptId}")
     public ResponseEntity<Object> getKomentarjiByReceptId(@PathVariable("receptId") Integer receptId) {
         if (receptId == null) {
@@ -51,6 +70,12 @@ public class KomentarResource {
         return ResponseEntity.status(HttpStatus.OK).body(komentarList);
     }
 
+    @Timed(
+            value = "Komentarji.save",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @PostMapping("/add/{receptId}")
     public ResponseEntity<Object> saveKomentar(@PathVariable("receptId")Integer receptId,
                                                @RequestBody Komentar komentar) {
@@ -67,6 +92,12 @@ public class KomentarResource {
         return ResponseEntity.status(HttpStatus.OK).body(komentarAdded);
     }
 
+    @Timed(
+            value = "Komentarji.update",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @PutMapping("/update/{komentarId}")
     public ResponseEntity<Object> updateKomentar(@PathVariable("komentarId") Integer komentarId,
                                                  @RequestBody Komentar komentar) {
@@ -88,6 +119,12 @@ public class KomentarResource {
         return ResponseEntity.status(HttpStatus.OK).body(komentarUpdated);
     }
 
+    @Timed(
+            value = "Komentarji.delete",
+            histogram = true,
+            percentiles = {0.95, 0.99},
+            extraTags = {"version", "v1"}
+    )
     @DeleteMapping("/delete/{komentarId}")
     public ResponseEntity<Object> deleteKomentar(@PathVariable("komentarId") Integer komentarId) {
 
