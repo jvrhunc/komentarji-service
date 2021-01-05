@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: komentarji-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: komentarji-service
+  template:
+    metadata:
+      labels:
+        app: komentarji-service
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - image: jvrhunc/komentarji-service:latest
+          name: komentarji-service
+          imagePullPolicy: "Always"
+          env:
+            - name: db_url
+              value: jdbc:postgresql://kandula.db.elephantsql.com:5432/wmwglgpj
+            - name: db_username
+              value: wmwglgpj
+            - name: db_password
+              valueFrom:
+                secretKeyRef:
+                  name: password-secret-komentarji
+                  key: db_password
+          ports:
+            - containerPort: 8081
+              name: server
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /check/health
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /check/health
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: komentarji-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: komentarji-service
