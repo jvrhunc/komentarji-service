@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/komentarji")
+@CrossOrigin("*")
 public class KomentarResource {
 
     @Autowired
