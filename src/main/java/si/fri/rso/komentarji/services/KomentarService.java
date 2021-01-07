@@ -28,9 +28,10 @@ public class KomentarService {
         return komentarRepository.getByReceptId(receptId);
     }
 
-    public Komentar saveKomentar(Integer receptId, Komentar komentar) {
+    public Komentar saveKomentar(Integer receptId, Komentar komentar, Integer uporabnikId) {
         komentar.setCreated(LocalDate.now());
         komentar.setReceptId(receptId);
+        komentar.setUporabnikId(uporabnikId);
 
         return komentarRepository.save(komentar);
     }

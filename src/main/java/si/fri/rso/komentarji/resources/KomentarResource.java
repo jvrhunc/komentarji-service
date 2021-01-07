@@ -77,14 +77,15 @@ public class KomentarResource {
             percentiles = {0.95, 0.99},
             extraTags = {"version", "v1"}
     )
-    @PostMapping("/add/{receptId}")
+    @PostMapping("/add/{receptId}/uporabnik/{uporabnikId}")
     public ResponseEntity<Object> saveKomentar(@PathVariable("receptId")Integer receptId,
+                                               @PathVariable("uporabnikId")Integer uporabnikId,
                                                @RequestBody Komentar komentar) {
         if(komentar == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Komentar is required!");
         }
 
-        Komentar komentarAdded = komentarService.saveKomentar(receptId, komentar);
+        Komentar komentarAdded = komentarService.saveKomentar(receptId, komentar, uporabnikId);
 
         if(komentarAdded == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error while saving Komentar!");
